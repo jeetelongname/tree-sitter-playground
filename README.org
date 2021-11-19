@@ -1,0 +1,7 @@
+#+TITLE: Tree sitter playground
+
+A more fun way to visualize the tree sitter abstract syntax tree
+
+#+begin_quote
+:warning: This is a work in progress. here be dragons
+#+end_quote
