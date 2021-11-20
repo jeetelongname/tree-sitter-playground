@@ -14,18 +14,67 @@
   "A better way to visulise the ast."
   :group 'tree-sitter)
 
+(defcustom tree-sitter-playground-range-face 'tree-sitter-hl-face:number
+  "The face used by the range."
+  :type 'symbol
+  :group 'tree-sitter-playground)
+
+(defcustom tree-sitter-playground-jump-buttons nil
+  "Jump to node."
+  :type 'boolean
+  :group 'tree-sitter-playground)
+
+(defcustom tree-sitter-playground-highlight-jump-region nil
+  "Whether to highlight the node jumped to.
+This only takes effect if `tree-sitter-debug-jump-buttons' is non-nil."
+  :type 'boolean
+  :group 'tree-sitter-debug)
+
+(defface tree-sitter-playground-button-face
+  '((t :underline t))
+  "Face for buttons."
+  :group 'tree-sitter-playground)
+
 (defvar-local tree-sitter-playground--tree-buffer nil
   "Buffer used to display syntax tree.")
 
 (defvar-local tree-sitter-playground--source-code-buffer nil
   "Source buffer that the syntax tree represents.")
 
+(defun tree-sitter-playground--button-node-lookup (button)
+  "The function to call when a `tree-sitter-playground' BUTTON is clicked."
+  (unless tree-sitter-playground--source-code-buffer
+    (error "No source code buffer set"))
+  (unless (buffer-live-p tree-sitter-playground--source-code-buffer)
+    (user-error "Source code buffer has been killed"))
+  (unless button
+    (user-error "This function must be called on a button"))
+  (tree-sitter-playground--goto-node tree-sitter-playground--source-code-buffer
+                                     (button-get button 'points-to)))
+
+(defun tree-sitter-playground--goto-node (buffer node)
+  "Switch to BUFFER, centering on the region defined by NODE."
+  (switch-to-buffer-other-window buffer)
+  (let ((range (tsc-node-position-range node)))
+    (goto-char (car range))
+    (push-mark (cdr range) t tree-sitter-playground-highlight-jump-region)))
+
 (defun tree-sitter-playground--display-node (node depth)
-  "Display a NODE, DEPTH."
+  "Display a NODE at a certain depth DEPTH."
   (insert (make-string (* 2 depth) ?\ ))
-  (let* ((node-range (seq-take (append (tsc-node-range node) nil) 2))
-         (node-text (format "%s [%s - %s]:\n" (tsc-node-type node) (car node-range) (cadr node-range))))
-    (insert node-text))
+  (let* ((node-range (tsc-node-byte-range node))
+         (node-text (format "%s [%s - %s]:\n" (propertize (symbol-name (tsc-node-type node)) 'face 'tree-sitter-hl-face:function)
+                            (propertize (number-to-string (car node-range)) 'face tree-sitter-playground-range-face)
+                            (propertize (number-to-string (cdr node-range)) 'face tree-sitter-playground-range-face))))
+    (if tree-sitter-playground-jump-buttons
+        (insert-button
+         node-text
+         'face 'tree-sitter-playground-button-face
+         'action #'tree-sitter-playground--button-node-lookup
+         'follow-link t
+         'help-echo "mouse-2, RET: click me!"
+         'points-to node)
+      (insert node-text)))
   (tsc-mapc-children (lambda (c)
                        (when (tsc-node-named-p c)
                          (tree-sitter-playground--display-node c (1+ depth))))
