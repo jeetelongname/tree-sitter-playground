@@ -61,11 +61,11 @@
     (kill-buffer tree-sitter-playground--tree-buffer)
     (setq tree-sitter-playground--tree-buffer nil)))
 
-(define-minor-mode tree-sitter-playground
+(define-minor-mode tree-sitter-playground-mode
   "A playground to visulise the tree sitter tree."
   :init-value nil
   :group 'tree-sitter-playground
-  (tree-sitter--handle-dependent tree-sitter-playground
+  (tree-sitter--handle-dependent tree-sitter-playground-mode
     #'tree-sitter-playground--setup
     #'tree-sitter-playground--teardown))
 
