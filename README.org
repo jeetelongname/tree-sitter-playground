@@ -1,5 +1,10 @@
 #+TITLE: Tree sitter playground
 
-A more fun way to visualize the tree sitter abstract syntax tree
+* A more fun way to visualize the tree sitter abstract syntax tree
 
 *This is a work in progress. here be dragons* :warning:
+
+* Thanks!
+- this project has used the debug mode from [[https://github.com/emacs-tree-sitter/elisp-tree-sitter][emacs-tree-sitter]] as a base to then
+  work off of, this project could also not be possible without the underlying
+  tech developed by the same project.
