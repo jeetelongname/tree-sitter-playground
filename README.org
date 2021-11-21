@@ -2,6 +2,8 @@
 
 * A more fun way to visualize the [[https://github.com/emacs-tree-sitter/elisp-tree-sitter][tree sitter]] ast
 
+[[file:demo.gif]]
+
 #+begin_quote
 *This is a work in progress. here be dragons* :warning:
 #+end_quote
