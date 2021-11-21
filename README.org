@@ -1,9 +1,17 @@
 #+TITLE: Tree sitter playground
 
-* A more fun way to visualize the tree sitter abstract syntax tree
+* A more fun way to visualize the [[https://github.com/emacs-tree-sitter/elisp-tree-sitter][tree sitter]] ast
 
+#+begin_quote
 *This is a work in progress. here be dragons* :warning:
+#+end_quote
+ok that's an exaggeration, its usable as it is now but be warned there will
+probably be breaking changes in the future.
 
+* things todo
+- [ ] highlight the current node (and all child nodes) in a different way-
+- [-] Make the jump buttons slightly different visually
+- [ ] /maybe/ highlight the nodes depending on the type
 * Thanks!
 - this project has used the debug mode from [[https://github.com/emacs-tree-sitter/elisp-tree-sitter][emacs-tree-sitter]] as a base to then
   work off of, this project could also not be possible without the underlying
