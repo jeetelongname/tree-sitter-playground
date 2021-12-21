@@ -41,7 +41,7 @@ This only takes effect if `tree-sitter-debug-jump-buttons' is non-nil."
   :group 'tree-sitter-debug)
 
 (defface tree-sitter-playground-button-face
-  '((t :underline t))
+  '((t nil))
   "Face for buttons."
   :group 'tree-sitter-playground)
 
