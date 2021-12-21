@@ -19,6 +19,16 @@
   :type 'symbol
   :group 'tree-sitter-playground)
 
+(defcustom tree-sitter-playground-node-face 'tree-sitter-hl-face:function
+  "The face used by the node."
+  :type 'symbol
+  :group 'tree-sitter-playground)
+
+(defcustom tree-sitter-playground-error-face 'tree-sitter-hl-face:variable
+  "The face used by errors."
+  :type 'symbol
+  :group 'tree-sitter-playground)
+
 (defcustom tree-sitter-playground-jump-buttons nil
   "Jump to node."
   :type 'boolean
