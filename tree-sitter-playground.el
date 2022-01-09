@@ -73,10 +73,10 @@ This only takes effect if `tree-sitter-debug-jump-buttons' is non-nil."
   "Display a NODE at a certain depth DEPTH."
   (insert (make-string (* 2 depth) ?\ ))
   (let* ((node-range (tsc-node-byte-range node))
-         (node-text (format "%s [%s - %s]:\n" (let ((type (symbol-name (tsc-node-type node))))
-                                                    (propertize type 'face (if (string= type "ERROR")
-                                                                                tree-sitter-playground-error-face
-                                                                              tree-sitter-playground-node-face)))
+         (node-text (format "%s [%s - %s]:\n" (propertize (symbol-name (tsc-node-type node))
+                                                          'face (if (tsc-node-error-p node)
+                                                                    tree-sitter-playground-error-face
+                                                                  tree-sitter-playground-node-face))
                             (propertize (number-to-string (car node-range)) 'face tree-sitter-playground-range-face)
                             (propertize (number-to-string (cdr node-range)) 'face tree-sitter-playground-range-face))))
     (if tree-sitter-playground-jump-buttons
